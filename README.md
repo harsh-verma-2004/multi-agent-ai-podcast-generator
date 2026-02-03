@@ -1,60 +1,178 @@
-# Podcaster Crew
+🎙️ AI Podcast Generator (CrewAI + Hugging Face + FastAPI)
 
-Welcome to the Podcaster Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+An end-to-end AI-powered podcast generation system that takes a topic as input, performs autonomous research using multiple AI agents, writes a structured podcast script, and generates spoken audio — all fully automated.
 
-## Installation
+Built using CrewAI multi-agent orchestration, Hugging Face LLaMA models, FastAPI, and local Text-to-Speech (TTS).
 
-Ensure you have Python >=3.10 <3.14 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
+🚀 Key Features
 
-First, if you haven't already, install uv:
+🔁 Multi-Agent AI Workflow (CrewAI)
 
-```bash
-pip install uv
-```
+Research Agent → Analysis Agent → Script Writer Agent
+
+🧠 LLM-powered content generation using Hugging Face (LLaMA-3-8B-Instruct)
+
+📝 Automatically generates:
+
+Research summary
+
+Detailed report
+
+Podcast script with speaker dialogue
+
+🔊 Audio podcast generation using local TTS (pyttsx3)
+
+🌐 FastAPI backend to generate podcasts via API request
+
+💯 Fully free & open-source stack (no paid API required)
+
+🏗️ System Architecture
+User Topic
+   ↓
+Research Agent (LLM)
+   ↓
+Reporting Agent (LLM)
+   ↓
+Scriptwriter Agent (LLM)
+   ↓
+Text-to-Speech Tool (Local)
+   ↓
+Podcast Audio (.wav)
+
+🛠️ Tech Stack
+
+Python 3.10+
+
+CrewAI – Multi-agent orchestration
+
+Hugging Face (LLaMA-3-8B-Instruct) – LLM inference
+
+FastAPI – API layer
+
+pyttsx3 – Offline text-to-speech
+
+Uvicorn – ASGI server
+
+📂 Project Structure
+podcaster_crew-production/
+│
+├── src/
+│   └── podcaster/
+│       ├── crew.py
+│       ├── main.py
+│       ├── tools/
+│       │   └── custom_tool.py
+│       └── config/
+│           ├── agents.yaml
+│           └── tasks.yaml
+│
+├── api.py                # FastAPI entry point
+├── requirements.txt
+├── README.md
+├── .gitignore
+└── outputs/              # Generated scripts & audio (gitignored)
+
+⚙️ Setup Instructions
+1️⃣ Clone the repository
+git clone https://github.com/<your-username>/ai-podcast-generator-crewai.git
+cd ai-podcast-generator-crewai
+
+2️⃣ Create virtual environment
+python -m venv venv
+venv\Scripts\activate   # Windows
+
+3️⃣ Install dependencies
+pip install -r requirements.txt
+
+4️⃣ Environment variables
+
+Create a .env file in root (⚠️ do NOT commit this):
+
+HUGGINGFACE_API_KEY=your_hf_key_here
+SERPER_API_KEY=your_serper_key_here
 
 
-Next, navigate to your project directory and install the dependencies:
+🔐 .env is ignored via .gitignore
 
-(Optional) Lock the dependencies and install them by using the CLI command:
-```bash
-crewai install
-```
-
-### Setup
-
-1. Create `.env` file at project root and add:
-
-```
-MODEL=gpt-4.1-mini-2025-04-14
-OPENAI_API_KEY=sk-
-GEMINI_API_KEY=
-SERPER_API_KEY=
-```
-
-You'll need to add credits for these:
-OpenAI API Key: https://platform.openai.com/api-keys
-Gemini API Key: https://aistudio.google.com/apikey
-Serper API Key: https://serper.dev/
+▶️ Running the Project (CLI)
+python src/podcaster/main.py
 
 
-## Running the Project
+This will:
 
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
+Research the topic
 
-```bash
-$ crewai run
-```
+Generate report & script
 
-This command initializes the podcaster Crew, assembling the agents and assigning them tasks as defined in your configuration.
+Create podcast audio in outputs/
 
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
+🌐 Running via FastAPI
+Start API server:
+uvicorn api:app --reload
 
-## Customising
-- Modify `src/podcaster/config/agents.yaml` to define your agents
-- Modify `src/podcaster/config/tasks.yaml` to define your tasks
-- Modify `src/podcaster/crew.py` to add your own logic, tools and specific args
-- Modify `src/podcaster/main.py` to add custom inputs for your agents and tasks
+Open browser:
+http://127.0.0.1:8000/docs
 
-## Support
+API Endpoint
+POST /generate-podcast
 
-For support, questions, or feedback regarding the Podcaster Crew or crewAI, visit CrewAI [documentation](https://docs.crewai.com).
+
+Request Body
+
+{
+  "topic": "Future of Cybersecurity"
+}
+
+
+Response
+
+{
+  "message": "Podcast generated successfully",
+  "audio_file": "outputs/podcast-20260203-154200.wav"
+}
+
+🎧 Output
+
+📄 Research summary
+
+📄 Podcast script
+
+🔊 Audio podcast (.wav)
+
+All stored inside the outputs/ directory.
+
+🧠 Engineering Challenges Solved
+
+Handled LLM context-length limits
+
+Managed tool failures and retries
+
+Implemented local TTS fallback to avoid paid APIs
+
+Designed agent coordination without infinite loops
+
+Secured secrets using .env & .gitignore
+
+📌 Resume Description (Short)
+
+Built an AI-driven podcast generation system using CrewAI multi-agent architecture and Hugging Face LLMs, automating research, scriptwriting, and audio generation via FastAPI.
+
+🧪 Future Enhancements
+
+Streaming audio generation
+
+Topic scheduling & history
+
+Cloud TTS integration
+
+Frontend UI (React)
+
+👨‍💻 Author
+
+Harsh Verma
+Computer Science Graduate
+AI | Backend | Multi-Agent Systems
+
+⭐ If you like this project
+
+Give it a ⭐ on GitHub — it really helps!
