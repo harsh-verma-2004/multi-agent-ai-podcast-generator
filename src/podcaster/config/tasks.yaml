@@ -1,0 +1,37 @@
+research_task:
+  description: >
+    Conduct a thorough research about {topic}
+    Make sure you find any interesting and relevant information given
+    the current date is {current_month} {current_year}.
+  expected_output: >
+    A list with 10 most relevant news & progress on {topic} with summary, details, excerpts, and more
+  agent: researcher
+
+reporting_task:
+  description: >
+    Review the context you got and organize each topic into a full section for a report.
+    Make sure the report is detailed and contains any and all relevant information.
+  expected_output: >
+    A fully fledged report with the main topics, each with a full section of information.
+    Formatted as markdown without '```'
+  agent: reporting_analyst
+
+scripting_task:
+  description: >
+    Review the report and extract only the most important highlights.
+
+    DO NOT read or write intermediate files.
+    DO NOT attempt to read previous summaries.
+
+    Write a concise, engaging podcast script (max 600 words).
+
+    After the script is finished, explicitly call the tts_voice_tool
+    with the full script text to generate podcast audio.
+
+    IMPORTANT:
+    - Do NOT specify directory as "None"
+    - Generate audio ONLY using tts_voice_tool
+  expected_output: >
+    A podcast script with speakers Joe and Jane.
+    Audio file generated successfully in outputs/ directory.
+  agent: scriptwriter
