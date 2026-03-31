@@ -1,178 +1,191 @@
-🎙️ AI Podcast Generator (CrewAI + Hugging Face + FastAPI)
+# 🚀 AI Podcast Generator (Multi-Agent System)
 
-An end-to-end AI-powered podcast generation system that takes a topic as input, performs autonomous research using multiple AI agents, writes a structured podcast script, and generates spoken audio — all fully automated.
+> Automatically generates a complete podcast (research → script → audio) using AI agents.
 
-Built using CrewAI multi-agent orchestration, Hugging Face LLaMA models, FastAPI, and local Text-to-Speech (TTS).
+---
 
-🚀 Key Features
+# 📌 Overview
 
-🔁 Multi-Agent AI Workflow (CrewAI)
+This project is a multi-agent AI system that automates the entire podcast creation pipeline—from topic input to final audio output.
 
-Research Agent → Analysis Agent → Script Writer Agent
+Instead of manually researching, writing scripts, and recording audio, this system uses AI agents to perform each step automatically. It leverages CrewAI for orchestration, LLMs for content generation, and offline text-to-speech for audio creation.
 
-🧠 LLM-powered content generation using Hugging Face (LLaMA-3-8B-Instruct)
+It is built for developers exploring **AI systems, agent orchestration, and real-world LLM pipelines**.
 
-📝 Automatically generates:
+---
 
-Research summary
+# 🎥 Demo / Screenshots
 
-Detailed report
+## 🔹 FastAPI Swagger UI (API Trigger)
 
-Podcast script with speaker dialogue
+<img width="1919" height="1016" alt="Screenshot 2026-03-30 163923" src="https://github.com/user-attachments/assets/9b65c944-96a6-4e25-a8be-661caabbfd3f" />
 
-🔊 Audio podcast generation using local TTS (pyttsx3)
 
-🌐 FastAPI backend to generate podcasts via API request
+## 🔹 Agent Execution (Terminal Logs)
 
-💯 Fully free & open-source stack (no paid API required)
+<img width="1860" height="929" alt="Screenshot 2026-03-30 163756" src="https://github.com/user-attachments/assets/15eda1ad-052f-4fb0-801d-5dc5e13961df" />
 
-🏗️ System Architecture
-User Topic
-   ↓
-Research Agent (LLM)
-   ↓
-Reporting Agent (LLM)
-   ↓
-Scriptwriter Agent (LLM)
-   ↓
-Text-to-Speech Tool (Local)
-   ↓
-Podcast Audio (.wav)
 
-🛠️ Tech Stack
+---
 
-Python 3.10+
+# ✨ Features
 
-CrewAI – Multi-agent orchestration
+## Core Features
 
-Hugging Face (LLaMA-3-8B-Instruct) – LLM inference
+* Topic-based podcast generation
+* Automated research → report → script → audio pipeline
+* FastAPI endpoint for triggering workflows
+* Offline TTS using pyttsx3
 
-FastAPI – API layer
+## Advanced Features
 
-pyttsx3 – Offline text-to-speech
+* Multi-agent orchestration using CrewAI
+* Tool integration (search, file handling, TTS)
+* Context passing between agents
+* Modular and extensible architecture
 
-Uvicorn – ASGI server
+---
 
-📂 Project Structure
-podcaster_crew-production/
-│
-├── src/
-│   └── podcaster/
-│       ├── crew.py
-│       ├── main.py
-│       ├── tools/
-│       │   └── custom_tool.py
-│       └── config/
-│           ├── agents.yaml
-│           └── tasks.yaml
-│
-├── api.py                # FastAPI entry point
+# 🏗 Architecture
+
+```mermaid
+graph TD
+
+User --> FastAPI
+FastAPI --> CrewAI
+CrewAI --> ResearchAgent
+CrewAI --> ReportAgent
+CrewAI --> ScriptAgent
+ScriptAgent --> TTS
+TTS --> FileSystem
+```
+
+---
+
+# 🔄 System Workflow
+
+```mermaid
+flowchart TD
+
+User_Input --> API_Request
+API_Request --> CrewAI
+CrewAI --> Research
+Research --> Report
+Report --> Script
+Script --> Audio
+Audio --> Output_Files
+```
+
+---
+
+# 🛠 Tech Stack
+
+| Layer     | Technology   |
+| --------- | ------------ |
+| Backend   | FastAPI      |
+| AI Agents | CrewAI       |
+| LLM       | Hugging Face |
+| TTS       | pyttsx3      |
+| Tools     | Serper API   |
+| Config    | dotenv       |
+
+---
+
+# 📂 Project Structure
+
+```
+podcaster_crew_production/
+
+├── src/podcaster/
+│   ├── crew.py
+│   ├── main.py
+│   ├── tools/
+│   ├── config/
+│   └── __init__.py
+├── outputs/           # generated files
+├── api.py
 ├── requirements.txt
-├── README.md
-├── .gitignore
-└── outputs/              # Generated scripts & audio (gitignored)
+├── .env
+```
 
-⚙️ Setup Instructions
-1️⃣ Clone the repository
-git clone https://github.com/<your-username>/ai-podcast-generator-crewai.git
-cd ai-podcast-generator-crewai
+---
 
-2️⃣ Create virtual environment
+# ⚙️ Installation
+
+### 1 Clone the repository
+
+```
+git clone https://github.com/yourusername/ai-podcast-generator.git
+```
+
+### 2 Navigate to project
+
+```
+cd ai-podcast-generator
+```
+
+### 3 Create virtual environment
+
+```
 python -m venv venv
-venv\Scripts\activate   # Windows
+venv\\Scripts\\activate
+```
 
-3️⃣ Install dependencies
+### 4 Install dependencies
+
+```
 pip install -r requirements.txt
+```
 
-4️⃣ Environment variables
+### 5 Run API server
 
-Create a .env file in root (⚠️ do NOT commit this):
-
-HUGGINGFACE_API_KEY=your_hf_key_here
-SERPER_API_KEY=your_serper_key_here
-
-
-🔐 .env is ignored via .gitignore
-
-▶️ Running the Project (CLI)
-python src/podcaster/main.py
-
-
-This will:
-
-Research the topic
-
-Generate report & script
-
-Create podcast audio in outputs/
-
-🌐 Running via FastAPI
-Start API server:
+```
 uvicorn api:app --reload
+```
 
-Open browser:
-http://127.0.0.1:8000/docs
+---
 
-API Endpoint
-POST /generate-podcast
+# 🔌 API Endpoints
 
+## 🎙 Generate Podcast
 
-Request Body
+```
+POST /generate-podcast?topic=YourTopic
+```
 
-{
-  "topic": "Future of Cybersecurity"
-}
+Example:
 
+```
+/generate-podcast?topic=Future of Cybersecurity
+```
 
-Response
+---
 
-{
-  "message": "Podcast generated successfully",
-  "audio_file": "outputs/podcast-20260203-154200.wav"
-}
+# 📊 Performance Considerations
 
-🎧 Output
+* LLM latency is the main bottleneck
+* Sequential pipeline ensures correctness
+* Can be optimized with parallel agents
+* Future scope for caching and async execution
 
-📄 Research summary
+---
 
-📄 Podcast script
+# 🗺 Roadmap
 
-🔊 Audio podcast (.wav)
+* Add async execution (Celery)
+* Add caching layer
+* Store outputs in cloud (S3)
+* Add authentication layer
 
-All stored inside the outputs/ directory.
+---
 
-🧠 Engineering Challenges Solved
-
-Handled LLM context-length limits
-
-Managed tool failures and retries
-
-Implemented local TTS fallback to avoid paid APIs
-
-Designed agent coordination without infinite loops
-
-Secured secrets using .env & .gitignore
-
-📌 Resume Description (Short)
-
-Built an AI-driven podcast generation system using CrewAI multi-agent architecture and Hugging Face LLMs, automating research, scriptwriting, and audio generation via FastAPI.
-
-🧪 Future Enhancements
-
-Streaming audio generation
-
-Topic scheduling & history
-
-Cloud TTS integration
-
-Frontend UI (React)
-
-👨‍💻 Author
+# 👨‍💻 Author
 
 Harsh Verma
-Computer Science Graduate
-AI | Backend | Multi-Agent Systems
+GitHub: [https://github.com/harsh-verma-2004](https://github.com/harsh-verma-2004)
 
-⭐ If you like this project
+---
 
-Give it a ⭐ on GitHub — it really helps!
+# ⭐ Support
+
+If you like this project, consider giving it a star ⭐
